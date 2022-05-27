@@ -24,9 +24,9 @@ class GroupFC(nn.Module):
             return out
 
 
-class IIWBlock(nn.Module):
+class IIWCBlock(nn.Module):
     def __init__(self, input_nc, output_nc, h=148, w=7, kernel_size=3, activation='relu', use_dropout=False):
-        super(IIWBlock, self).__init__()
+        super(IIWCBlock, self).__init__()
         # average the number of output channels
         temp = output_nc // 2
         output_nc1 = output_nc2 = temp // 3
@@ -131,8 +131,8 @@ class Elec_HORLN_Model(nn.Module):
         h = 148  # 148 weeks
         w = 7  # 7 days in a week
 
-        self.ConvBlock1_1 = IIWBlock(elec_nc, middle_nc, activation='prelu', use_dropout=True)
-        self.ConvBlock3_1 = IIWBlock(middle_nc, middle_nc // 2, activation='prelu', use_dropout=True)
+        self.ConvBlock1_1 = IIWCBlock(elec_nc, middle_nc, activation='prelu', use_dropout=True)
+        self.ConvBlock3_1 = IIWCBlock(middle_nc, middle_nc // 2, activation='prelu', use_dropout=True)
 
         self.dense_layer = nn.Sequential(OrderedDict([
             ('dense1', GroupFC((middle_nc // 2, h, w), 200)),
