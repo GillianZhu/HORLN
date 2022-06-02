@@ -1,11 +1,10 @@
 # Hybrid-Order Representation Learning for Electricity Theft Detection
-This is a PyTorch implementation of **Hybrid-Order Representation Learning for Electricity Theft Detection**. 
-
 Electricity theft is the primary cause of electrical losses in power systems, existing methods usually detect anomalies in electricity consumption data on the first-order information and ignore the second-order representation learning that can efficiently model global temporal dependency and facilitates discriminative representation learning of electricity consumption data.
 
 We propose a novel and lightweight end-to-end **Hybrid-Order Representation Learning Network (HORLN)** to identify electricity thieves. To the best of our knowledge, this is the first attempt to incorporate second-order information with regular first-order based deep architectures for electricity theft detection.
 
-If you use this code for your research, please cite our paper.
+For more details, please refer to our paper [Hybrid-Order Representation Learning for Electricity Theft Detection](https://ieeexplore.ieee.org/document/9785914).
+
 
 ### Requirements
 - python3.7
@@ -46,3 +45,11 @@ bash eval_horln.sh
 ## Implementation of State-of-the-art Methods
 For `RF`, `XGB` and `MiniRocket`, we adopt implementations from open-source packages and select the parameter settings based on our dataset. Please use `cd` command and change the working directory to the corresponding folders, and then run the bash file to realize training and evaluation in one step.
 For `CNN` and `PFSC`, we implement the structures in previous works and revise some parameters for fair comparison; for `Wide&Deep`, and `HybridAttention`, we reimplement the official code. Please change the working directory to the corresponding folders, and then run the corresponding bash files in the order of train->val->test->eval, which is the same as running our HORLN.
+
+## Citation
+If you use this code for your research, please cite our paper.
+>@ARTICLE{HORLN,  
+>author={Zhu, Yuying and Zhang, Yang and Liu, Lingbo and Liu, Yang and Li, Guan bin and Mao, Mingzhi and Lin, Liang},  
+>journal={IEEE Transactions on Industrial Informatics},   
+>title={Hybrid-Order Representation Learning for Electricity Theft Detection},   
+>year={2022},  volume={},  number={},  pages={1-1},  doi={10.1109/TII.2022.3179243}}
