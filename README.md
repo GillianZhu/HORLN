@@ -48,8 +48,11 @@ For `CNN` and `PFSC`, we implement the structures in previous works and revise s
 
 ## Citation
 If you use this code for your research, please cite our paper.
-`@ARTICLE{HORLN,  
-author={Zhu, Yuying and Zhang, Yang and Liu, Lingbo and Liu, Yang and Li, Guan bin and Mao, Mingzhi and Lin, Liang},  
-journal={IEEE Transactions on Industrial Informatics},   
-title={Hybrid-Order Representation Learning for Electricity Theft Detection},   
-year={2022},  volume={},  number={},  pages={1-1},  doi={10.1109/TII.2022.3179243}}`
+```
+@ARTICLE{HORLN,  
+        author={Zhu, Yuying and Zhang, Yang and Liu, Lingbo and Liu, Yang and Li, Guan bin and Mao, Mingzhi and Lin, Liang},  
+        journal={IEEE Transactions on Industrial Informatics},   
+        title={Hybrid-Order Representation Learning for Electricity Theft Detection},   
+        year={2022},  volume={},  number={},  pages={1-1},  
+        doi={10.1109/TII.2022.3179243}}
+```
