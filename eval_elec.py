@@ -19,7 +19,7 @@ if __name__ == '__main__':
         pred_path = web_dir + "result.csv"
         dataframe = pd.read_csv(pred_path)
 
-        best_f1_score, best_f1_threshold, best_f1_precision, best_f1_recall, elec_auc, MAP = evaluation(dataframe, opt.best_threshold, trad=False)
+        best_f1_score, best_f1_threshold, best_f1_precision, best_f1_recall, elec_auc, MAP = evaluation(dataframe, opt.best_threshold, trad=True)
         print("best_f1_threshold:", best_f1_threshold)
         print("best_f1_precision:", best_f1_precision)
         print("best_f1_recall:", best_f1_recall)

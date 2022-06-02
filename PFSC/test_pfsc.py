@@ -1,11 +1,16 @@
+import sys
 import os
 import time
+sys.path.append("..")
 from options.test_options import TestOptions
 from data.electricity_dataset import ElectricityDataset
 from models import create_model
 from util.electricity_evaluation import evaluation
 import pandas as pd
-import torch.utils.data
+import random
+import torch.utils.data as data
+import torch
+import numpy as np
 
 
 if __name__ == '__main__':
@@ -13,13 +18,17 @@ if __name__ == '__main__':
     # hard-code some parameters for test
     opt.num_threads = 0   # test code only supports num_threads = 0
     opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
-    # dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
-    dataset = ElectricityDataset(opt.dataroot, opt.phase, shuffle=False)
-    dataloader = torch.utils.data.DataLoader(
-        dataset,
+
+    dataroot = opt.dataroot
+    dataset_test = ElectricityDataset(dataroot, 'test', shuffle=False)
+    dataloader_for_meta_cls = torch.utils.data.DataLoader(
+        dataset_test,
         batch_size=opt.batch_size,
         shuffle=False,
         num_workers=int(opt.num_threads))
+    dataset_size_for_meta_cls = len(dataloader_for_meta_cls)  # get the number of images in the dataset.
+    print('The number of testing samples for meta cls = %d' % dataset_size_for_meta_cls)
+
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
     
@@ -38,12 +47,10 @@ if __name__ == '__main__':
     all_path = []
     print('opt.batch_size: ', opt.batch_size)
     test_sample_num = 0
-    for i, data in enumerate(dataloader):
+    for i, data in enumerate(dataloader_for_meta_cls):
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
-        #visual_names = ['elec', 'meta', 'MIL_prediction', 'flag', 'image_paths']
-        #visual_names = ['elec', 'meta', 'prediction', 'week_pred', 'day_pred', 'flag', 'image_paths']
         test_sample_num = test_sample_num + len(visuals['prediction'])
         for j in range(len(visuals['prediction'])):
            pred = visuals['prediction'][j].cpu().float().numpy()[0] 
@@ -76,26 +83,11 @@ if __name__ == '__main__':
     
     print("best_f1_score:", best_f1_score)
     print("elec_auc:", elec_auc)
-    # print("MAP100:", MAP100)
-    # print("MAP200:", MAP200)
-    # print("MAP300:", MAP300)
-    # print("MAP500:", MAP500)
     print("MAP_all:", MAP_all)
 
     print('End of testing \t Time Taken: %d sec' % (time.time() - test_start_time))
 
-    with open(os.path.join(opt.results_dir, opt.name) + '/'+ opt.name + "_evaluation.csv", "a") as f:                                                   
-        # evaluation_str = 'Epoch, '       + str(opt.epoch) + \
-        #              ', Threshold, ' + str(best_f1_threshold) + \
-        #              ', Recall, '    + str(best_f1_recall) + \
-        #              ', Precision, ' + str(best_f1_precision) + \
-        #              ', F1_Score, '  + str(best_f1_score) + \
-        #              ', AUC, '       + str(elec_auc) + \
-        #                  ', MAP100, ' + str(MAP100) + \
-        #                  ', MAP200, ' + str(MAP200) + \
-        #                  ', MAP300, ' + str(MAP300) + \
-        #                  ', MAP500, ' + str(MAP500) + \
-        #                  ', MAP, '       + str(MAP_all) + '\n'
+    with open(os.path.join(opt.results_dir, opt.name) + '/'+ opt.name + "_evaluation.csv", "a") as f:
         evaluation_str = 'Epoch, ' + str(opt.epoch) + \
                          ', Threshold, ' + str(best_f1_threshold) + \
                          ', Recall, ' + str(best_f1_recall) + \

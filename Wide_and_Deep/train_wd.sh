@@ -1,9 +1,9 @@
-net=elec_horln
-name=elec_horln
+net=wide_and_deep
+name=wide_and_deep
 
-python train.py \
+CUDA_VISIBLE_DEVICES=0 python ../train_elec.py \
 --dataset_mode electricity \
---dataroot ./datasets/electricity/ \
+--dataroot ../datasets/electricity/ \
 --batch_size 32 \
 --lr 0.0001 \
 --model electricity \

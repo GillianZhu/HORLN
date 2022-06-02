@@ -12,35 +12,16 @@ import datetime
 import math 
 import random
 
-'''
-get_processed_dataset:
---get_dataset:
-----read csv file and drop FLAGS
-----sort date
-----check missing date and add empty data for the missing date
-----add FLAGS back
-----user_based_preprocessing:
-------All NaN: return False
-------For mask:
---------NaN:0; Normal:1
-------For elec data:
---------NaN: (elec[i-1] + elec[i+1]) / 2.0 or 0.0
---------Outlier: elec_mean + 2*elec_std
---------MinMaxScaler
---------elec = np.stack((norm_elec, mask_elec))
-------meta=np.stack((meta_elec_max, meta_elec_min, meta_elec_mean, meta_mask_mean))
-----np.savez: elec, meta, flag
-'''
 
-def download_data():
-    # Download data from GitHub repository
-    os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.z01')
-    os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.z02')
-    os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.zip')
-
-    # Unzip downloaded data
-    os.system('cat data.z01 data.z02 data.zip > data_compress.zip')
-    os.system('unzip -n -q data_compress')
+# def download_data():
+#     # Download data from GitHub repository
+#     os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.z01')
+#     os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.z02')
+#     os.system('wget -nc -q https://github.com/henryRDlab/ElectricityTheftDetection/raw/master/data.zip')
+#
+#     # Unzip downloaded data
+#     os.system('cat data.z01 data.z02 data.zip > data_compress.zip')
+#     os.system('unzip -n -q data_compress')
 
 
 def get_dataset(filepath):
@@ -81,6 +62,7 @@ def get_dataset(filepath):
     df_raw['FLAG'] = flags
     return df_raw
 
+
 def check_missing_date(date_list):
     date_min = date_list[0]
     date_max = date_list[-1]
@@ -106,6 +88,7 @@ def check_missing_date(date_list):
        print('terminal date missing:', cur_date)
     
     return miss_date
+
 
 def user_based_preprocessing(elec):
     
@@ -160,6 +143,25 @@ def user_based_preprocessing(elec):
     return True, elec.astype(np.float32), meta.astype(np.float32)
 
 """# Processing dataset"""
+'''
+get_processed_dataset:
+--get_dataset:
+----read csv file and drop FLAGS
+----sort date
+----check missing date and add empty data for the missing date
+----add FLAGS back
+----user_based_preprocessing:
+------All NaN: return False
+------For mask:
+--------NaN:0; Normal:1
+------For elec data:
+--------NaN: (elec[i-1] + elec[i+1]) / 2.0 or 0.0
+--------Outlier: elec_mean + 2*elec_std
+--------MinMaxScaler
+--------elec = np.stack((norm_elec, mask_elec))
+------meta=np.stack((meta_elec_max, meta_elec_min, meta_elec_mean, meta_mask_mean))
+----np.savez: elec, meta, flag
+'''
 def get_processed_dataset(filepath):
     df_raw = get_dataset(filepath)
     
@@ -183,18 +185,19 @@ def get_processed_dataset(filepath):
         else:
            save_path = 'datasets/electricity/abnormal/' if flag == 1 else 'datasets/electricity/normal/'
            np.savez(save_path + uname, elec=elec, meta=meta, flag=flag) 
-        
+
+
 def cross_validation_random_partition(path, sample_txt, cv_txt_prefix, cv_num = 5):
     all_samples = []
-    for sample in open(path + sample_txt):  
+    for sample in open(path + sample_txt):
          all_samples.append(sample)
     random.shuffle(all_samples)
-    
+
     cv_unit_num = math.ceil(len(all_samples)/cv_num)
     for i in range(cv_num):
        start_id = cv_unit_num * i
        end_id = cv_unit_num * (i+1) if cv_unit_num * (i+1) <= len(all_samples) else len(all_samples)
-       
+
        f=open(path + cv_txt_prefix + str(i) + '.txt', "w")
        for line in all_samples[start_id : end_id]:
            f.write(line)
@@ -226,7 +229,7 @@ if __name__ == '__main__':
   filepath = 'datasets/electricity/data.csv'
   get_processed_dataset(filepath)
 
-  # cross_validation_random_partition('datasets/electricity/', 'abnormal_all.txt', 'abnormal_cv_')
-  # cross_validation_random_partition('datasets/electricity/', 'normal_all.txt', 'normal_cv_')
-  # train_validation_test_random_partition('datasets/electricity/', 'abnormal_all.txt', 'abnormal_')
-  # train_validation_test_random_partition('datasets/electricity/', 'normal_all.txt', 'normal_')
+  cross_validation_random_partition('datasets/electricity/', 'abnormal_all.txt', 'abnormal_cv_')
+  cross_validation_random_partition('datasets/electricity/', 'normal_all.txt', 'normal_cv_')
+  train_validation_test_random_partition('datasets/electricity/', 'abnormal_all.txt', 'abnormal_')
+  train_validation_test_random_partition('datasets/electricity/', 'normal_all.txt', 'normal_')

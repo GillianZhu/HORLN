@@ -23,7 +23,7 @@ class BaseOptions():
         parser.add_argument('--dataroot', required=True, help='path to images (should have subfolders trainA, trainB, valA, valB, etc)')
         parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
         parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
-        parser.add_argument('--checkpoints_dir', type=str, default='./checkpoints', help='models are saved here')
+        parser.add_argument('--checkpoints_dir', type=str, default='../checkpoints', help='models are saved here')
         # model parameters
         parser.add_argument('--model', type=str, default='cycle_gan', help='chooses which model to use. [cycle_gan | pix2pix | test | colorization]')
         parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels: 3 for RGB and 1 for grayscale')
@@ -79,10 +79,10 @@ class BaseOptions():
         parser = model_option_setter(parser, self.isTrain)
         opt, _ = parser.parse_known_args()  # parse again with new defaults
 
-        # modify dataset-related parser options
-        dataset_name = opt.dataset_mode
-        dataset_option_setter = data.get_option_setter(dataset_name)
-        parser = dataset_option_setter(parser, self.isTrain)
+        # # modify dataset-related parser options
+        # dataset_name = opt.dataset_mode
+        # dataset_option_setter = data.get_option_setter(dataset_name)
+        # parser = dataset_option_setter(parser, self.isTrain)
 
         # save and return the parser
         self.parser = parser

@@ -8,30 +8,41 @@ We propose a novel and lightweight end-to-end **Hybrid-Order Representation Lear
 If you use this code for your research, please cite our paper.
 
 ### Requirements
-- python3
+- python3.7
 - numpy
 - pytorch
+- scikit_learn  (for implementation of the comparing method `RF`)
+- xgboost  (for implementation of the comparing method `XGB`)
+- [tsai](https://github.com/timeseriesAI/tsai) (for implementation of the comparing method `MiniRocket`)
 
 ### Dataset
 We conducted our experiments on a public real-world dataset ([link](https://github.com/henryRDlab/ElectricityTheftDetection/)). We preprocessed the dataset and randomly split
 it into three sets for training, validation, and testing. The preprocessed data has been saved in the `datasets/electricity.zip` file, please unzip the file and put it to the `datasets/electricity` folder.
 
 ## Train
-The command to train our HORLN has been written in `train.sh`. Please run the bash file and the HORLN will be trained for 200 epochs. The parameters of the models will be saved in the `checkpoints/electricity_elec_horln` folder.
+The command to train our HORLN has been written in `Ours/train.sh`. Please run the bash file and the HORLN will be trained for 200 epochs. The parameters of the models will be saved in the `checkpoints/electricity_elec_horln` folder.
 ```
-bash train.sh
+cd Ours
+bash train_horln.sh
 ```
 
 ## Validate and Test
 After training, the saved models of each epoch could be validated and tested by the following commands, respectively. The prediction results will be saved in the `results/electricity_elec_horln` directory, and two summary tables named `electricity_elec_horln_validation.csv` and `electricity_elec_horln_evaluation.csv` will also be generated.
 ```
-bash val.sh
+cd Ours
+bash val_horln.sh
 ```
 ```
-bash test.sh
+cd Ours
+bash test_horln.sh
 ```
 ## Evaluate
 By validating the trained model in the validation set, the optimal value of the threshold for F1 score calculation will be automatically calculated for each epoch. Please find the threshold of the epoch you would like to evaluate (e.g., the epoch with the largest F1 score in the validation set) in the `electricity_elec_horln_validation.csv` file and revise the value of the `epoch` argument and the `best_threshold` argument in `eval.sh` accordingly. With the following command, the performance of the trained model on the testing set with the threshold determined on the validation set could be evaluated. 
 ```
-bash eval.sh
+cd Ours
+bash eval_horln.sh
 ```
+
+## Implementation of State-of-the-art Methods
+For `RF`, `XGB` and `MiniRocket`, we adopt implementations from open-source packages and select the parameter settings based on our dataset. Please use `cd` command and change the working directory to the corresponding folders, and then run the bash file to realize training and evaluation in one step.
+For `CNN` and `PFSC`, we implement the structures in previous works and revise some parameters for fair comparison; for `Wide&Deep`, and `HybridAttention`, we reimplement the official code. Please change the working directory to the corresponding folders, and then run the corresponding bash files in the order of train->val->test->eval, which is the same as running our HORLN.

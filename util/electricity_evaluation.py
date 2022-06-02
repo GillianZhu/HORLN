@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import torch
 from sklearn.metrics import precision_recall_curve, roc_curve, auc
 from sklearn.metrics import confusion_matrix
 import math
@@ -11,6 +10,8 @@ def evaluation(result_dataframe, best_threshold=0, trad=False):
     assert (len(pred) == len(flag))
     best_f1_score = 0
 
+    # customize the best threshold when testing for deep learning methods
+    # or set it to zero for validation and testing for traditional methods that directly output zeros/ones results
     if trad:
         best_f1_threshold = best_threshold
         preds=np.where(pred>best_threshold, 1, 0)
@@ -45,7 +46,7 @@ def evaluation(result_dataframe, best_threshold=0, trad=False):
 
         if (best_f1_precision != 0.0 or best_f1_recall != 0):
             best_f1_score = 2 * best_f1_precision * best_f1_recall / (best_f1_precision + best_f1_recall)
-    else:
+    else:  #
         precisions, recalls, thresholds = precision_recall_curve(flag, pred)
         f1_scores = (2 * precisions * recalls) / (precisions + recalls)
         best_f1_score = np.max(f1_scores[np.isfinite(f1_scores)])
