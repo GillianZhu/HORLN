@@ -288,7 +288,7 @@ if __name__ == '__main__':
     dataroot = "../datasets/electricity/"
     results_save_dir = "../results/minirocket"
     if not os.path.exists(results_save_dir):
-        os.mkdir(results_path_dir)
+        os.mkdir(results_save_dir)
 
     X, y, splits = load_datasets(dataroot)
     train_start_time = time.time()

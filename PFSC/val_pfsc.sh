@@ -1,8 +1,8 @@
 basenet=pfsc
 name=pfsc
-end_epoch=201
+end_epoch=200
 
-CUDA_VISIBLE_DEVICES=0 python val_pfsc.py \
+python val_pfsc.py \
 --phase val \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity_"$name"/val/ \
@@ -11,4 +11,5 @@ CUDA_VISIBLE_DEVICES=0 python val_pfsc.py \
 --model electricity \
 --netG $basenet \
 --name electricity_"$name" \
---epoch $end_epoch
+--epoch $end_epoch \
+--gpu_ids -1

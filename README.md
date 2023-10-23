@@ -19,14 +19,14 @@ We conducted our experiments on a public real-world dataset ([link](https://gith
 it into three sets for training, validation, and testing. The preprocessed data has been saved in the `datasets/electricity.zip` file, please unzip the file and put it to the `datasets/electricity` folder.
 
 ## Train
-The command to train our HORLN has been written in `Ours/train.sh`. Please run the bash file and the HORLN will be trained for 200 epochs. The parameters of the models will be saved in the `checkpoints/electricity_elec_horln` folder.
+The command to train our HORLN has been written in `Ours/train.sh`. Please run the bash file and the HORLN will be trained for 200 epochs. The parameters of the models will be saved in the `checkpoints/electricity_elec_horln` folder. Please add a parameter `--gpu_ids -1` when running with CPU.
 ```
 cd Ours
 bash train_horln.sh
 ```
 
 ## Validate and Test
-After training, the saved models of each epoch could be validated and tested by the following commands, respectively. The prediction results will be saved in the `results/electricity_elec_horln` directory, and two summary tables named `electricity_elec_horln_validation.csv` and `electricity_elec_horln_evaluation.csv` will also be generated.
+After training, the saved models of each epoch could be validated and tested by the following commands, respectively. The prediction results will be saved in the `results/electricity_elec_horln` directory, and two summary tables named `electricity_elec_horln_validation.csv` and `electricity_elec_horln_evaluation.csv` will also be generated. Please add a parameter `--gpu_ids -1` when running with CPU.
 ```
 cd Ours
 bash val_horln.sh

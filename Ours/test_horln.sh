@@ -14,7 +14,7 @@ do
         sleep 5 
 done
 
-CUDA_VISIBLE_DEVISE=0 python ../test_elec.py \
+python ../test_elec.py \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity/ \
 --batch_size 1 \

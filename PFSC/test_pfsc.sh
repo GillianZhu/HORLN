@@ -15,7 +15,7 @@ do
         sleep 5 
 done
 
-CUDA_VISIBLE_DEVICES=0 python test_pfsc.py \
+python test_pfsc.py \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity_"$name"/test/ \
 --batch_size 1 \
@@ -23,5 +23,6 @@ CUDA_VISIBLE_DEVICES=0 python test_pfsc.py \
 --model electricity \
 --netG $basenet \
 --name electricity_"$name" \
---epoch $epoch
+--epoch $epoch \
+--gpu_ids -1
 done

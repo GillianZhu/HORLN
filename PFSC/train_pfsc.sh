@@ -1,7 +1,7 @@
 net=pfsc
 name=pfsc
 
-CUDA_VISIBLE_DEVICES=0 python -u train_pfsc.py \
+python train_pfsc.py \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity/ \
 --batch_size 32 \
@@ -9,4 +9,5 @@ CUDA_VISIBLE_DEVICES=0 python -u train_pfsc.py \
 --model electricity \
 --netG $net \
 --name electricity_"$name" \
---save_epoch_freq 1
+--save_epoch_freq 1 \
+--gpu_ids -1

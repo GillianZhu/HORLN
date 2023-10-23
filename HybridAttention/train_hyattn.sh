@@ -2,7 +2,7 @@ net=hybrid_attention
 name=hybrid_attention
 
 
-CUDA_VISIBLE_DEVICES=0 python ../train_elec.py \
+python ../train_elec.py \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity/ \
 --batch_size 32 \

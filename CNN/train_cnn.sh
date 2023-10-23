@@ -1,7 +1,7 @@
 net=elec_cnn
 name=elec_cnn
 
-CUDA_VISIBLE_DEVICES=0 nohup python ../train_elec.py \
+python ../train_elec.py \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity/ \
 --batch_size 32 \

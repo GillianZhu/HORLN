@@ -6,7 +6,6 @@ from .Elec_CNN_Model import CNNModel
 from .Elec_Wide_Deep_CNN import WDCNNModel
 from .Elec_Hybrid_Attn import HybridAttentionModel
 from .PFSC import PFSC
-from .Elec_abla import Elec_HORLN_Model_for_plot
 ###############################################################################
 # Helper Functions
 ###############################################################################
@@ -100,8 +99,6 @@ def define_G(netG, init_type='normal', init_gain=0.02, gpu_ids=[]):
         net = HybridAttentionModel()
     elif netG == 'pfsc':
         net = PFSC()
-    elif netG == 'horln_plot':
-        net = Elec_HORLN_Model_for_plot()
     else:
         raise NotImplementedError('Generator model name [%s] is not recognized' % netG)
     return init_net(net, init_type, init_gain, gpu_ids)
