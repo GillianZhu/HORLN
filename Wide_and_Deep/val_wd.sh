@@ -15,7 +15,7 @@ do
         sleep 5 
 done
 
-python ../val_elec.py \
+CUDA_VISIBLE_DEVICES=0 python ../val_elec.py \
 --phase val \
 --dataset_mode electricity \
 --dataroot ../datasets/electricity/ \
